@@ -1,0 +1,9 @@
+# Exclude media and locks for elastic beanstalk
+.var/media/*
+.var/locks/*
+.var/log/*
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
