@@ -1,5 +1,5 @@
 # Exclude media and locks for elastic beanstalk
-.var/media/*
+.media/*
 .var/locks/*
 .var/log/*
 
