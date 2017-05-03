@@ -7,7 +7,7 @@ echo 'magento on EB <br/>';
 
 echo 'Looking in the media folder...';
 
-if ($handle = opendir('var/media')) {
+if ($handle = opendir('media')) {
 
     while (false !== ($entry = readdir($handle))) {
 
