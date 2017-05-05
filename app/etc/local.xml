@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Mage
+ * @package    Mage_Core
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <global>
+        <install>
+            <date><![CDATA[Tue, 18 Feb 2014 07:46:11 +0000]]></date>
+        </install>
+        <crypt>
+            <key><![CDATA[398572590521cdc535f3515ae2e36b2f]]></key>
+        </crypt>
+        <disable_local_modules>false</disable_local_modules>
+        <resources>
+            <db>
+                <table_prefix><![CDATA[]]></table_prefix>
+            </db>
+            <default_setup>
+                <connection>
+                    <host><![CDATA[{DB_HOST}]]></host>
+                    <username><![CDATA[{DB_USER}]]></username>
+                    <password><![CDATA[{DB_PASS}]]></password>
+                    <dbname><![CDATA[{DB_NAME}]]></dbname>
+                    <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
+                    <model><![CDATA[mysql4]]></model>
+                    <type><![CDATA[pdo_mysql]]></type>
+                    <pdoType><![CDATA[]]></pdoType>
+                    <active>1</active>
+                </connection>
+            </default_setup>
+        </resources>
+        <!-- This is a child node of config/global -->
+    <cache>
+  <backend>Cm_Cache_Backend_Redis</backend>
+  <backend_options>
+    <server>{REDIS_HOST}</server> <!-- or absolute path to unix socket -->
+    <port>{REDIS_PORT}</port>
+    <persistent></persistent> <!-- Specify unique string to enable persistent connections. E.g.: sess-db0; bugs with phpredis and php-fpm are known: https://github.com/nicolasff/phpredis/issues/70 -->
+    <database>0</database> <!-- Redis database number; protection against accidental data loss is improved by not sharing databases -->
+    <password></password> <!-- Specify if your Redis server requires authentication -->
+    <force_standalone>0</force_standalone>  <!-- 0 for phpredis, 1 for standalone PHP -->
+    <connect_retries>1</connect_retries>    <!-- Reduces errors due to random connection failures; a value of 1 will not retry after the first failure -->
+    <read_timeout>10</read_timeout>         <!-- Set read timeout duration; phpredis does not currently support setting read timeouts -->
+    <automatic_cleaning_factor>0</automatic_cleaning_factor> <!-- Disabled by default -->
+    <compress_data>1</compress_data>  <!-- 0-9 for compression level, recommended: 0 or 1 -->
+    <compress_tags>1</compress_tags>  <!-- 0-9 for compression level, recommended: 0 or 1 -->
+    <compress_threshold>20480</compress_threshold>  <!-- Strings below this size will not be compressed -->
+    <compression_lib>gzip</compression_lib> <!-- Supports gzip, lzf, lz4 (as l4z) and snappy -->
+    <use_lua>0</use_lua> <!-- Set to 1 if Lua scripts should be used for some operations (recommended) -->
+    <load_from_slave>tcp://redis-slave:6379</load_from_slave> <!-- Perform reads from a different server -->
+  </backend_options>
+</cache>
+            <!--session_save><![CDATA[files]]></session_save-->
+
+    <session_save>db</session_save>
+            <redis_session>                       <!-- All options seen here are the defaults -->
+                <host>{REDIS_HOST}</host>            <!-- Specify an absolute path if using a unix socket -->
+                <port>{REDIS_PORT}</port>
+                <password></password>             <!-- Specify if your Redis server requires authentication -->
+                <timeout>2.5</timeout>            <!-- This is the Redis connection timeout, not the locking timeout -->
+                <persistent></persistent>         <!-- Specify unique string to enable persistent connections. E.g.: sess-db0; bugs with phpredis and php-fpm are known: https://github.com/nicolasff/phpredis/issues/70 -->
+                <db>1</db>                        <!-- Redis database number; protection from accidental loss is improved by using a unique DB number for sessions -->
+                <compression_threshold>2048</compression_threshold>  <!-- Set to 0 to disable compression (recommended when suhosin.session.encrypt=on); known bug with strings over 64k: https://github.com/colinmollenhour/Cm_Cache_Backend_Redis/issues/18 -->
+                <compression_lib>gzip</compression_lib>              <!-- gzip, lzf, lz4 or snappy -->
+                <log_level>1</log_level>               <!-- 0 (emergency: system is unusable), 4 (warning; additional information, recommended), 5 (notice: normal but significant condition), 6 (info: informational messages), 7 (debug: the most information for development/testing) -->
+                <max_concurrency>6</max_concurrency>                 <!-- maximum number of processes that can wait for a lock on one session; for large production clusters, set this to at least 10% of the number of PHP processes -->
+                <break_after_frontend>5</break_after_frontend>       <!-- seconds to wait for a session lock in the frontend; not as critical as admin -->
+                <fail_after>10</fail_after>                          <!-- seconds after which we bail from attempting to obtain lock (in addition to break after time) -->
+                <break_after_adminhtml>30</break_after_adminhtml>
+                <first_lifetime>600</first_lifetime>                 <!-- Lifetime of session for non-bots on the first write. 0 to disable -->
+                <bot_first_lifetime>60</bot_first_lifetime>          <!-- Lifetime of session for bots on the first write. 0 to disable -->
+                <bot_lifetime>7200</bot_lifetime>                    <!-- Lifetime of session for bots on subsequent writes. 0 to disable -->
+                <disable_locking>0</disable_locking>                 <!-- Disable session locking entirely. -->
+                <min_lifetime>60</min_lifetime>                      <!-- Set the minimum session lifetime -->
+                <max_lifetime>2592000</max_lifetime>                 <!-- Set the maximum session lifetime -->
+            </redis_session>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <frontName><![CDATA[admin]]></frontName>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+	<stores>
+		<admin>
+			<design>
+				<package>
+					<name>default</name>
+				</package>
+				<theme>
+					<default>klean</default>
+				</theme>
+			</design>
+		</admin>
+	</stores>
+
+</config>
